@@ -41,3 +41,29 @@ I'm a newb and I want to edit the project with Android Studio instead of Vim:
 - select a directory
 
 I once had a dream to have one git tracked file per app, but I got tired of fighting to minimize unminimizable Android Studio bloat of 20 million files to run a hello world program, and now just keep all the generated crap in the repo and be done with it. For most apps, please just ignore all files, and go straight for the `MainActivity.java`. Initial templates were obtained from Android Studio new projects, then similar ones forked with the `./template` script.
+
+## Using ADB Wirelessly for Content Gathering without Android Studio
+
+ADB can be used wirelessly for content gathering without the need for Android Studio. This can be particularly useful for developers who prefer a lightweight setup or need to gather content on the go. Here's how to set it up:
+
+### Enabling Wireless Debugging
+
+1. Ensure your device is running Android 11 or later.
+2. Enable Developer Options on your device by going to Settings > About phone and tapping "Build number" seven times.
+3. Go to Developer Options and enable "Wireless debugging."
+4. Pair your device with your computer using a QR code or pairing code.
+5. Use the `adb connect` command to connect to the device over Wi-Fi. For example:
+
+    ```
+    adb connect <device_ip_address>:<port>
+    ```
+
+### Gathering Content
+
+Once connected, you can use various ADB commands to gather content from your device. Some useful commands include:
+
+- `adb pull <remote> <local>`: Pulls a file from the device to your computer.
+- `adb shell <command>`: Executes a shell command on the device.
+- `adb logcat`: Retrieves the device's logcat output.
+
+By using ADB wirelessly, you can efficiently gather content from your device without the need for a USB connection or Android Studio.
