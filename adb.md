@@ -217,3 +217,29 @@ Android 11 introduced wireless debugging, which allows you to connect to a devic
 Android 11 also introduced incremental APK installation, which speeds up the installation process for large APKs. To use this feature, you need to enable it in the Developer Options and use the `adb install` command with the `--incremental` flag.
 
 For more information on using adb with Android 10 and later, refer to the official Android documentation.
+
+## Using ADB Wirelessly for Content Gathering without Android Studio
+
+ADB can be used wirelessly for content gathering without the need for Android Studio. This can be particularly useful for developers who prefer a lightweight setup or need to gather content on the go. Here's how to set it up:
+
+### Enabling Wireless Debugging
+
+1. Ensure your device is running Android 11 or later.
+2. Enable Developer Options on your device by going to Settings > About phone and tapping "Build number" seven times.
+3. Go to Developer Options and enable "Wireless debugging."
+4. Pair your device with your computer using a QR code or pairing code.
+5. Use the `adb connect` command to connect to the device over Wi-Fi. For example:
+
+    ```
+    adb connect <device_ip_address>:<port>
+    ```
+
+### Gathering Content
+
+Once connected, you can use various ADB commands to gather content from your device. Some useful commands include:
+
+- `adb pull <remote> <local>`: Pulls a file from the device to your computer.
+- `adb shell <command>`: Executes a shell command on the device.
+- `adb logcat`: Retrieves the device's logcat output.
+
+By using ADB wirelessly, you can efficiently gather content from your device without the need for a USB connection or Android Studio.
