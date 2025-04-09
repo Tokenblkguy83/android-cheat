@@ -172,3 +172,25 @@ The easier way is to sort by tag of the `Log` class: <http://developer.android.c
 ### /system/bin/logcat
 
 If you run that from `adb shell`, the output seems to be exactly the same.
+
+## am
+
+The `am` command is used to start activities, services, and send broadcasts on an Android device. It can be used through the ADB shell.
+
+### Starting Activities
+
+To start a specific activity, use the `am start` command with the package and class name. For example:
+
+    adb shell am start -n com.cirosantilli.android_cheat.xml_layout/com.cirosantilli.android_cheat.xml_layout.Main
+
+### Starting Services
+
+To start a service, use the `am startservice` command with the package and service name. For example:
+
+    adb shell am startservice -n com.example.myapp/.MyService
+
+### Sending Broadcasts
+
+To send a broadcast, use the `am broadcast` command with the action name. For example:
+
+    adb shell am broadcast -a android.intent.action.BOOT_COMPLETED
