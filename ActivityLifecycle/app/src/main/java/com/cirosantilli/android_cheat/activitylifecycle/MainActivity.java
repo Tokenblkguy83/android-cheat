@@ -6,73 +6,70 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-public class MainActivity extends Activity {
-    private void toastLog(String s) {
-        Toast.makeText(this.getApplicationContext(),
-                s, Toast.LENGTH_SHORT).show();
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+    private void logActivityLifecycle(String s) {
         Log.d("ActivityLifecycle", s);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        toastLog("onCreate");
-        final Button button = new Button(this);
-        button.setText("click me to go to activity 2");
+        logActivityLifecycle("onCreate");
+        setContentView(R.layout.activity_main);
+        final Button button = findViewById(R.id.button_activity2);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MainActivity.this.startActivity(new Intent(MainActivity.this, MainActivity.Activity2.class));
             }
         });
-        this.setContentView(button);
     }
 
     protected void onStart() {
         super.onStart();
-        toastLog("onStart");
+        logActivityLifecycle("onStart");
     }
 
     protected void onRestart() {
         super.onRestart();
-        toastLog("onRestart");
+        logActivityLifecycle("onRestart");
     }
 
     protected void onResume() {
         super.onResume();
-        toastLog("onResume");
+        logActivityLifecycle("onResume");
     }
 
     protected void onPause() {
         super.onPause();
-        toastLog("onPause");
+        logActivityLifecycle("onPause");
     }
 
     protected void onStop() {
         super.onStop();
-        toastLog("onStop");
+        logActivityLifecycle("onStop");
     }
 
     protected void onDestroy() {
         super.onDestroy();
-        toastLog("onDestroy");
+        logActivityLifecycle("onDestroy");
     }
 
-    public static class Activity2 extends Activity {
+    public static class Activity2 extends AppCompatActivity {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            final Button button = new Button(this);
-            button.setText("click me to go to activity 1");
+            setContentView(R.layout.activity_main);
+            final Button button = findViewById(R.id.button_activity1);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     MainActivity.Activity2.this.startActivity(new Intent(MainActivity.Activity2.this, MainActivity.class));
                 }
             });
-            this.setContentView(button);
         }
     }
 }
