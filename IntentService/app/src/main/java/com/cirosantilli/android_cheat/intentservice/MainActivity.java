@@ -31,11 +31,6 @@ public class MainActivity extends Activity {
             this.handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                    }
                     Toast.makeText(
                             MyService.this,
                             "from service",

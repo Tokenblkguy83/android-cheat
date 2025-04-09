@@ -9,11 +9,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends Activity {
     public static final String TAG = "com.cirosantilli";
@@ -52,9 +48,6 @@ public class MainActivity extends Activity {
             try {
                 mCamera.setPreviewDisplay(holder);
                 mCamera.startPreview();
-                Animation animation = new AlphaAnimation(0.0f, 1.0f);
-                animation.setDuration(500);
-                this.startAnimation(animation);
             } catch (IOException e) {
                 Log.d(MainActivity.TAG, "Error setting camera preview: " + e.getMessage());
             }
@@ -85,22 +78,6 @@ public class MainActivity extends Activity {
 
             // start preview with new settings
             surfaceCreated(mHolder);
-        }
-
-        private String encryptMessage(String message) {
-            try {
-                MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                byte[] hash = digest.digest(message.getBytes());
-                StringBuilder hexString = new StringBuilder();
-                for (byte b : hash) {
-                    String hex = Integer.toHexString(0xff & b);
-                    if (hex.length() == 1) hexString.append('0');
-                    hexString.append(hex);
-                }
-                return hexString.toString();
-            } catch (NoSuchAlgorithmException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
 }
