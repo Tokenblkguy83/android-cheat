@@ -17,9 +17,9 @@ The most common way of using ADB on a device is to plug it in with an USB cable,
 - <http://stackoverflow.com/questions/2604727/how-can-i-connect-to-android-with-adb-over-tcp>
 - <http://stackoverflow.com/questions/14358882/connecting-adb-using-wifi-for-non-rooted-device>
 
-### Wireless asb
+### Wireless adb
 
-Wireless asb is a feature that allows you to connect to a device over Wi-Fi without needing a USB cable. It provides several benefits for debugging and content gathering.
+Wireless adb is a feature that allows you to connect to a device over Wi-Fi without needing a USB cable. It provides several benefits for debugging and content gathering.
 
 #### Benefits of Wireless asb
 
@@ -32,7 +32,7 @@ Wireless asb is a feature that allows you to connect to a device over Wi-Fi with
 1. Ensure your device is running Android 11 or later.
 2. Enable Developer Options on your device by going to Settings > About phone and tapping "Build number" seven times.
 3. Go to Developer Options and enable "Wireless debugging."
-4. Pair your device with your computer using a QR code or pairing code.
+4. Pair your device with your computer using a QR code or pairing code. On your Android device, open the Wireless debugging settings and tap either "Pair device with QR code" or "Pair device with pairing code" to display the code. Then, on your computer, follow the on-screen instructions or use an ADB tool that supports wireless debugging to enter the pairing code or scan the QR code.
 5. Use the `adb connect` command to connect to the device over Wi-Fi. For example:
 
     ```
