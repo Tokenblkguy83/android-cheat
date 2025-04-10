@@ -20,7 +20,9 @@ jobs:
       packages: write
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
@@ -30,7 +32,13 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+      uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: 7.6 # Specify the Gradle version to use
+        cache-read-only: false # Enable caching for Gradle dependencies
+
+    - name: Verify Gradle Installation
+      run: gradle --version
 
     - name: Build with Gradle
       run: ./gradlew build
