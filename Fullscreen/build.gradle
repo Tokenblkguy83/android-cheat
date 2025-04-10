@@ -1,3 +1,7 @@
+plugins {
+    id 'maven-publish'
+}
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
@@ -17,6 +21,27 @@ allprojects {
     repositories {
         google()
         jcenter()
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Tokenblkguy83/android-cheat")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.token") ?: System.getenv("TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from components.java
+            groupId = 'com.cirosantilli.android_cheat'
+            artifactId = 'fullscreen'
+            version = '1.0.0'
+        }
     }
 }
 
