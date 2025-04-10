@@ -1,0 +1,265 @@
+import android.widget.Toast
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
+
+data class FunctionItem(val name: String, val description: String, val onClick: () -> Unit)
+
+@Composable
+fun AdbToolScreen(functionItems: List<FunctionItem>) {
+    val context = LocalContext.current
+
+    Scaffold(
+        topBar = {
+            TopAppBar(title = { Text("Advanced ADB Tool") })
+        }
+    ) { paddingValues ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(functionItems) { item ->
+                var showDescription by remember { mutableStateOf(false) }
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(
+                            onClick = item.onClick,
+                            onLongClick = {
+                                showDescription = !showDescription
+                                Toast.makeText(context, item.description, Toast.LENGTH_LONG).show()
+                            }
+                        )
+                        .padding(8.dp)
+                ) {
+                    Text(text = item.name, style = MaterialTheme.typography.h6)
+                    if (showDescription) {
+                        Text(text = item.description, style = MaterialTheme.typography.body2)
+                    }
+                    Divider()
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun AdbToolApp() {
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    var deviceList by remember { mutableStateOf("") }
+    var isListingDevices by remember { mutableStateOf(false) }
+
+    val functionList = remember {
+        mutableStateListOf(
+            FunctionItem(
+                name = "List connected devices",
+                description = "Shows a list of devices connected via USB or Wi-Fi to your computer.",
+                onClick = {
+                    isListingDevices = true
+                    coroutineScope.launch {
+                        // Placeholder for your actual ADB command execution
+                        // For example:
+                        // val result = runAdbCommand("adb devices")
+                        // deviceList = result
+                        Toast.makeText(context, "Listing devices...", Toast.LENGTH_SHORT).show()
+                        isListingDevices = false
+                        // You might want to update some UI state here to display the deviceList
+                    }
+                }
+            ),
+            FunctionItem(
+                name = "Install an APK",
+                description = "Allows you to install an APK file from your computer onto the connected device. Be cautious with APK sources!",
+                onClick = { /* Implement logic for adb install */ Toast.makeText(context, "Installing APK...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Uninstall an app",
+                description = "Removes an application from the connected device using its package name.",
+                onClick = { /* Implement logic for adb uninstall */ Toast.makeText(context, "Uninstalling app...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Get device properties",
+                description = "Retrieves and displays various system properties of the connected Android device.",
+                onClick = { /* Implement logic for adb shell getprop */ Toast.makeText(context, "Getting properties...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Pull a file from device",
+                description = "Copies a file or directory from the connected device to your computer. Ensure the local path is safe.",
+                onClick = { /* Implement logic for adb pull */ Toast.makeText(context, "Pulling file...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Push a file to device",
+                description = "Copies a file or directory from your computer to the connected device. Ensure the remote path is correct.",
+                onClick = { /* Implement logic for adb push */ Toast.makeText(context, "Pushing file...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Take a screenshot",
+                description = "Captures a screenshot of the connected device's display and saves it on the device.",
+                onClick = { /* Implement logic for adb shell screencap */ Toast.makeText(context, "Taking screenshot...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Record screen",
+                description = "Starts recording the screen of the connected device and saves the recording on the device. Press Ctrl+C in the terminal to stop.",
+                onClick = { /* Implement logic for adb shell screenrecord */ Toast.makeText(context, "Recording screen...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Reboot device",
+                description = "Initiates a reboot of the connected Android device.",
+                onClick = { /* Implement logic for adb reboot */ Toast.makeText(context, "Rebooting...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Enter ADB shell",
+                description = "Opens an interactive shell on the connected device, allowing you to execute various commands directly. Use with caution!",
+                onClick = { /* Implement logic for adb shell */ Toast.makeText(context, "Entering ADB shell...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "List packages",
+                description = "Displays a list of all installed application package names on the device.",
+                onClick = { /* Implement logic for adb shell pm list packages */ Toast.makeText(context, "Listing packages...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Force stop an app",
+                description = "Forces a specified application to stop running.",
+                onClick = { /* Implement logic for adb shell am force-stop */ Toast.makeText(context, "Force stopping app...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Clear app data",
+                description = "Deletes all data associated with a specified application.",
+                onClick = { /* Implement logic for adb shell pm clear */ Toast.makeText(context, "Clearing app data...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Grant runtime permission",
+                description = "Grants a specific runtime permission to an application. Understand the permissions you are granting!",
+                onClick = { /* Implement logic for adb shell pm grant */ Toast.makeText(context, "Granting permission...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Revoke runtime permission",
+                description = "Revokes a specific runtime permission from an application.",
+                onClick = { /* Implement logic for adb shell pm revoke */ Toast.makeText(context, "Revoking permission...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Enable ADB over Wi-Fi",
+                description = "Configures the device to accept ADB connections over Wi-Fi. Requires initial USB connection. Limits network exposure.",
+                onClick = { /* Implement logic for adb tcpip */ Toast.makeText(context, "Enabling ADB over Wi-Fi...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Connect to device via Wi-Fi",
+                description = "Establishes an ADB connection to a device using its IP address and port. Ensure you are on a secure network.",
+                onClick = { /* Implement logic for adb connect */ Toast.makeText(context, "Connecting via Wi-Fi...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Disconnect from Wi-Fi device",
+                description = "Closes the ADB connection to a device connected over Wi-Fi.",
+                onClick = { /* Implement logic for adb disconnect */ Toast.makeText(context, "Disconnecting...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Execute content provider query",
+                description = "Runs a query against a specified content provider on the device. Understand the data you are accessing.",
+                onClick = { /* Implement logic for adb shell content query */ Toast.makeText(context, "Querying content provider...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Revoke USB debugging authorizations",
+                description = "Removes all previously granted USB debugging authorizations. A security measure.",
+                onClick = { /* Implement logic for adb revokeusbkeys */ Toast.makeText(context, "Revoking USB keys...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Get local network information",
+                description = "Displays information about your computer's network interfaces, which can help with Wi-Fi ADB connections.",
+                onClick = { /* Implement logic for getLocalNetworkInfo */ Toast.makeText(context, "Getting network info...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "List files and directories",
+                description = "Shows a list of files and subdirectories within a specified path on the device.",
+                onClick = { /* Implement logic for adb shell ls */ Toast.makeText(context, "Listing files...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Search for files by name",
+                description = "Searches for files on the device with a name matching your query within a specified directory.",
+                onClick = { /* Implement logic for adb shell find -name */ Toast.makeText(context, "Searching files...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Get file details",
+                description = "Displays detailed information about a specific file on the device (size, permissions, etc.).",
+                onClick = { /* Implement logic for adb shell stat or ls -l */ Toast.makeText(context, "Getting file details...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "List installed applications",
+                description = "Displays the package names of all applications installed on the device.",
+                onClick = { /* Implement logic for adb shell pm list packages */ Toast.makeText(context, "Listing apps...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Search for applications by package name",
+                description = "Searches for installed applications based on their package name.",
+                onClick = { /* Implement logic for adb shell pm list packages | grep */ Toast.makeText(context, "Searching apps...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Browse basic media content",
+                description = "Provides a basic listing of media files in common directories (e.g., /sdcard/DCIM/).",
+                onClick = { /* Implement logic for adb shell ls (with filtering in app) */ Toast.makeText(context, "Browsing media...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Real-time Logcat filtering",
+                description = "Streams and filters the device's system logs in real-time based on your criteria.",
+                onClick = { /* Implement logic for adb logcat */ Toast.makeText(context, "Starting logcat...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Inspect application data directories (requires root/debuggable)",
+                description = "Allows browsing of internal data directories of applications (requires root access or the app to be debuggable).",
+                onClick = { /* Implement logic for adb shell run-as or su -c ls */ Toast.makeText(context, "Inspecting app data...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Search SQLite databases within apps (requires root/debuggable)",
+                description = "Enables querying SQLite databases used by applications (requires root access or the app to be debuggable). Requires knowledge of SQL.",
+                onClick = { /* Implement logic for adb shell run-as or su -c sqlite3 */ Toast.makeText(context, "Querying database...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Dump application information (dumpsys)",
+                description = "Retrieves detailed information about the device's system services and applications.",
+                onClick = { /* Implement logic for adb shell dumpsys */ Toast.makeText(context, "Dumping system info...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Access screenshot and screen recording paths",
+                description = "Provides quick access to the default directories where screenshots and screen recordings are saved.",
+                onClick = { /* Implement logic to show predefined paths */ Toast.makeText(context, "Showing media paths...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Fast file search in specified directories",
+                description = "Quickly searches for files matching your query within the directories you specify.",
+                onClick = { /* Implement logic for fastFileSearch */ Toast.makeText(context, "Starting fast search...", Toast.LENGTH_SHORT).show() }
+            ),
+            FunctionItem(
+                name = "Exit",
+                description = "Closes the ADB Tool application.",
+                onClick = { /* Implement logic to exit the app */ Toast.makeText(context, "Exiting...", Toast.LENGTH_SHORT).show() }
+            )
+        )
+    }
+
+    AdbToolScreen(functionList = functionList)
+
+    if (isListingDevices) {
+        AlertDialog(
+            onDismissRequest = { isListingDevices = false },
+            title = { Text("Connected Devices") },
+            text = { Text(deviceList) },
+            confirmButton = {
+                Button(onClick = { isListingDevices = false }) {
+                    Text("OK")
+                }
+            }
+        )
+    }
+}
