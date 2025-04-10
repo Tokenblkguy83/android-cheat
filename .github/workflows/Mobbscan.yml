@@ -1,18 +1,28 @@
-            - name: mobbdev
-  # You may pin to the exact commit or the version.
-  # uses: mobb-dev/action@6c55ca0e860071725037e6dcf5b14040edd1d3ec
-  uses: mobb-dev/action@v1.1
-  with:
-    # Path to SAST report file
-    report-file: 
-    # Mobb API key
-    api-key: 
-    # GitaHub Token
-    github-token: 
-    # Mobb Project Name
-    mobb-project-name: # optional
-    # Auto-PR flag
-    auto-pr: # optional
-    # Commit Directly flag, this requires Auto-PR flag to be set. Once enabled, Mobb will commit the fixes directly to the branch
-    commit-directly: # optional
-          
+name: Mobbscan Workflow
+
+on:
+  push:
+    branches: # Include all branches
+      - '**'
+  pull_request:
+    branches: # Include all branches for PRs
+      - '**'
+
+jobs:
+  mobbscan:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Run MobbScan Action
+      - name: Run MobbScan
+        uses: mobb-dev/action@6c55ca0e860071725037e6dcf5b14040edd1d3ec # Pin to SHA instead of version for security
+        with:
+          report-file: results/sast-report.json  # Path to SAST report file
+          api-key: ${{ secrets.MOBB_API_KEY }}  # Mobb API Key from GitHub Secrets
+          github-token: ${{ secrets.GITHUB_TOKEN }} # GitHub Token from GitHub Secrets
+          mobb-project-name: MyAndroidProject    # Optional: Project name
+          auto-pr: true                          # Optional: Enable auto PR
+          commit-directly: false                 # Optional: Do not commit directly
