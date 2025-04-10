@@ -9,12 +9,17 @@ on:
       - master
 
 permissions:
-  contents: write  # Ensure the workflow has full read and write access to the repository
+  contents: write  # Restrict this to steps that need write access only
 
 jobs:
   build:
     name: Build, Test, and Modularize Android Project
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        api-level: [30, 33]
+        build-tools: ['30.0.3', '33.0.2']
 
     steps:
       # Checkout the code
@@ -27,6 +32,12 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '11'
+
+      # Install required tools
+      - name: Install required tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget unzip curl
 
       # Cache Gradle dependencies
       - name: Cache Gradle dependencies
@@ -41,8 +52,8 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v2
         with:
-          api-level: 33
-          build-tools: 33.0.2
+          api-level: ${{ matrix.api-level }}
+          build-tools: ${{ matrix.build-tools }}
           ndk: 21.4.7075529
 
       # Build all modules
@@ -66,7 +77,9 @@ jobs:
         run: |
           echo "Validating modular plug-and-play structure..."
           ./gradlew projects
-          ./gradlew :module_name:build
+          for module in $(./gradlew projects | grep -oP 'project :\K[^ ]+'); do
+            ./gradlew :$module:build
+          done
 
       # Upload artifacts (APKs from all modules)
       - name: Upload APK artifacts
@@ -75,4 +88,4 @@ jobs:
           name: Modular APKs
           path: |
             app/build/outputs/**/*.apk
-            module_name/build/outputs/**/*.apk  # Add paths to other modules as needed
+            */build/outputs/**/*.apk  # Dynamic for all modules
