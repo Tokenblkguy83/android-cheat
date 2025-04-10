@@ -1,0 +1,78 @@
+name: Android CI with Full Repo Access, Advanced UI Testing, and Modular Plug-and-Play Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: write  # Ensure the workflow has full read and write access to the repository
+
+jobs:
+  build:
+    name: Build, Test, and Modularize Android Project
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up JDK
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+
+      # Cache Gradle dependencies
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # Set up Android SDK
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 33
+          build-tools: 33.0.2
+          ndk: 21.4.7075529
+
+      # Build all modules
+      - name: Build all modules
+        run: ./gradlew clean assembleDebug
+
+      # Run unit tests for all modules
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest
+
+      # Run advanced UI tests
+      - name: Run UI tests
+        run: ./gradlew connectedDebugAndroidTest
+
+      # Lint and code quality checks
+      - name: Run lint
+        run: ./gradlew lint
+
+      # Modular Plug-and-Play Functionality
+      - name: Ensure modular build
+        run: |
+          echo "Validating modular plug-and-play structure..."
+          ./gradlew projects
+          ./gradlew :module_name:build
+
+      # Upload artifacts (APKs from all modules)
+      - name: Upload APK artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Modular APKs
+          path: |
+            app/build/outputs/**/*.apk
+            module_name/build/outputs/**/*.apk  # Add paths to other modules as needed
