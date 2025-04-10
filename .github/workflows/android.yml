@@ -56,6 +56,18 @@ jobs:
           build-tools: ${{ matrix.build-tools }}
           ndk: 21.4.7075529
 
+      # Enable Gradle's dependency locking
+      - name: Enable Gradle's dependency locking
+        run: ./gradlew dependencies --write-locks
+
+      # Enable Gradle's build cache
+      - name: Enable Gradle's build cache
+        run: echo "org.gradle.caching=true" >> gradle.properties
+
+      # Enable parallel execution of tasks
+      - name: Enable parallel execution of tasks
+        run: echo "org.gradle.parallel=true" >> gradle.properties
+
       # Build all modules
       - name: Build all modules
         run: ./gradlew clean assembleDebug
