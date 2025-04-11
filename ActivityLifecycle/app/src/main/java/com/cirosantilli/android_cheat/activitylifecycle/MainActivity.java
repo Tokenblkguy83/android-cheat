@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-Animation animation = createAlphaAnimation();
-button.startAnimation(animation);
+                Animation animation = createAlphaAnimation();
+                button.startAnimation(animation);
                 MainActivity.this.startActivity(new Intent(MainActivity.this, MainActivity.Activity2.class));
             }
         });
@@ -65,6 +65,12 @@ button.startAnimation(animation);
         logActivityLifecycle("onDestroy");
     }
 
+    private Animation createAlphaAnimation() {
+        Animation animation = new AlphaAnimation(0.0f, 1.0f);
+        animation.setDuration(500);
+        return animation;
+    }
+
     public static class Activity2 extends AppCompatActivity {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +80,8 @@ button.startAnimation(animation);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-Animation animation = createAlphaAnimation();
-button.startAnimation(animation);
+                    Animation animation = createAlphaAnimation();
+                    button.startAnimation(animation);
                     MainActivity.Activity2.this.startActivity(new Intent(MainActivity.Activity2.this, MainActivity.class));
                 }
             });

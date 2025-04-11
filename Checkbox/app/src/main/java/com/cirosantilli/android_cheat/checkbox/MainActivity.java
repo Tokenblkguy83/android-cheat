@@ -27,8 +27,8 @@ public class MainActivity extends Activity {
         class OnClickListener implements View.OnClickListener {
             @Override
             public void onClick(View view) {
-Animation animation = createAlphaAnimation();
-view.startAnimation(animation);
+                Animation animation = createAlphaAnimation();
+                view.startAnimation(animation);
                 textView.setText(MainActivity.this.getText(checkBox0, checkBox1));
             }
         }
@@ -52,5 +52,11 @@ view.startAnimation(animation);
         if (checkBox1.isChecked())
             sb.append("1 ");
         return sb.toString();
+    }
+
+    private Animation createAlphaAnimation() {
+        Animation animation = new AlphaAnimation(0.0f, 1.0f);
+        animation.setDuration(500);
+        return animation;
     }
 }
