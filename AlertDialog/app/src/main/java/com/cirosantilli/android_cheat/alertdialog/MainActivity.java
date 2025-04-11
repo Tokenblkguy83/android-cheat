@@ -34,7 +34,8 @@ public class MainActivity extends Activity {
             .setIcon(android.R.drawable.ic_dialog_alert)
             .create();
 
-        alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+// Ensure that DialogAnimation is defined in res/values/styles.xml
+alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         alertDialog.show();
     }
 }
