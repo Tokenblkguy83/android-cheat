@@ -91,6 +91,12 @@ The default generated `ant` file does this with `ant debug install`.
 
 Install to all devices: <http://stackoverflow.com/questions/8610733/how-can-i-adb-install-an-apk-to-multiple-connected-devices>
 
+### Incremental APK Installation
+
+Android 11 introduced incremental APK installation, which speeds up the installation process for large APKs. To use this feature, you need to enable it in the Developer Options and use the `adb install` command with the `--incremental` flag. For example:
+
+    adb install --incremental my_large_apk.apk
+
 ## shell
 
 TODO: is this the same as SSH? If not, how?
@@ -210,6 +216,24 @@ The easier way is to sort by tag of the `Log` class: <http://developer.android.c
 
 If you run that from `adb shell`, the output seems to be exactly the same.
 
+### Real-time Logcat Filtering
+
+Real-time Logcat filtering is a feature that allows you to stream and filter the device's system logs in real-time based on your criteria. This can be useful for debugging and monitoring specific events.
+
+#### Benefits of Real-time Logcat Filtering
+
+- Helps in monitoring specific events and logs in real-time.
+- Useful for debugging and identifying issues quickly.
+
+#### Enabling and Using Real-time Logcat Filtering
+
+1. Connect your device to your computer using a USB cable or wirelessly.
+2. Use the `adb logcat` command with the desired filter criteria. For example, to filter logs by a specific tag:
+
+    ```
+    adb logcat -s NetworkTag
+    ```
+
 ## am
 
 The `am` command is used to start activities, services, and send broadcasts on an Android device. It can be used through the ADB shell.
@@ -281,6 +305,62 @@ Once connected, you can use various ADB commands to gather content from your dev
 
 By using ADB wirelessly, you can efficiently gather content from your device without the need for a USB connection or Android Studio.
 
+### Browsing Basic Media Content
+
+Browsing basic media content is a feature that allows you to list media files in common directories on the device. This can be useful for quickly accessing and managing media files.
+
+#### Benefits of Browsing Basic Media Content
+
+- Helps in quickly accessing and managing media files.
+- Useful for applications that need to browse media content.
+
+#### Enabling and Using Browsing Basic Media Content
+
+1. Connect your device to your computer using a USB cable or wirelessly.
+2. Use the `adb shell` command to navigate to the desired media directory. For example, to list media files in the DCIM directory:
+
+    ```
+    adb shell ls /sdcard/DCIM/
+    ```
+
+### Inspecting Application Data Directories
+
+Inspecting application data directories is a feature that allows you to browse the internal data directories of applications. This requires root access or the application to be debuggable.
+
+#### Benefits of Inspecting Application Data Directories
+
+- Helps in accessing and managing application data.
+- Useful for debugging and analyzing application data.
+
+#### Enabling and Using Inspecting Application Data Directories
+
+1. Connect your device to your computer using a USB cable or wirelessly.
+2. Use the `adb shell` command to navigate to the application's data directory. For example, to list the contents of an application's data directory:
+
+    ```
+    adb shell ls /data/data/com.example.messenger/
+    ```
+
+### IP Trace through Messenger
+
+IP trace through messenger is a feature that allows you to trace an IP address through a messenger application. This can be useful for monitoring network traffic and analyzing network-related information.
+
+#### Benefits of IP Trace through Messenger
+
+- Helps in monitoring network traffic and analyzing network-related information.
+- Useful for applications that need to trace IP addresses.
+
+#### Enabling and Using IP Trace through Messenger
+
+1. Enable Wireless ADB on your device.
+2. Monitor network traffic using tools like `tcpdump`.
+3. Analyze Logcat output for network-related information.
+4. Inspect application data directories for network-related information.
+5. Implement a function to automatically save captured IP addresses and corresponding names based on phone information.
+
+### Example Code for IP Trace through Messenger
+
+```kotlin
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
