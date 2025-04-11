@@ -3,6 +3,8 @@ package com.cirosantilli.android_cheat.checkbox;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,6 +27,8 @@ public class MainActivity extends Activity {
         class OnClickListener implements View.OnClickListener {
             @Override
             public void onClick(View view) {
+Animation animation = createAlphaAnimation();
+view.startAnimation(animation);
                 textView.setText(MainActivity.this.getText(checkBox0, checkBox1));
             }
         }

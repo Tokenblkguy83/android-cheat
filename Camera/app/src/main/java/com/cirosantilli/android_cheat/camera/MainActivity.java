@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,9 +24,13 @@ public class MainActivity extends Activity {
         }
         final Button button = new Button(this);
         button.setText("click me to take picture");
+        button.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_camera, 0, 0, 0);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Animation animation = new AlphaAnimation(0.0f, 1.0f);
+                animation.setDuration(500);
+                button.startAnimation(animation);
                 MainActivity.this.startActivityForResult(
                         new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE),
                         CAMERA_REQUEST);

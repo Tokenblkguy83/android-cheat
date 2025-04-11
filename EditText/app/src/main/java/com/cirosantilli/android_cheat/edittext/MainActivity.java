@@ -12,7 +12,10 @@ public class MainActivity extends Activity {
             // Handle the case where savedInstanceState is null
         }
         final EditText editText = new EditText(this);
+        editText.setHint("Enter text here...");
         editText.setText("hello world");
+        editText.setTextColor(getResources().getColor(android.R.color.black));
+        editText.setBackgroundColor(getResources().getColor(android.R.color.white));
         setContentView(editText);
     }
 }

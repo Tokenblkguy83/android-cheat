@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+Animation animation = createAlphaAnimation();
+button.startAnimation(animation);
                 MainActivity.this.startActivity(new Intent(MainActivity.this, MainActivity.Activity2.class));
             }
         });
@@ -70,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+Animation animation = createAlphaAnimation();
+button.startAnimation(animation);
                     MainActivity.Activity2.this.startActivity(new Intent(MainActivity.Activity2.this, MainActivity.class));
                 }
             });
