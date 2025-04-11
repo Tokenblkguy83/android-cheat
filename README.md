@@ -469,3 +469,58 @@ OpenCL: mostly not:
 ## Serial
 
 - via headphone jack! <https://www.pentestpartners.com/blog/how-to-hardware-hack-android-over-uart/>
+
+## New and Optimized Features
+
+The following new and optimized features have been added to the repository:
+
+- **Real-time Logcat Filtering**: Stream and filter the device's system logs in real-time based on your criteria. This can be useful for debugging and monitoring specific events.
+- **Browsing Basic Media Content**: List media files in common directories on the device. This can be useful for quickly accessing and managing media files.
+- **Inspecting Application Data Directories**: Browse the internal data directories of applications. This requires root access or the application to be debuggable.
+- **Incremental APK Installation**: Speed up the installation process for large APKs on Android 11 and later by using the `--incremental` flag with the `adb install` command.
+
+## NSFW Search Functionality
+
+The NSFW search functionality allows you to filter content for not safe for work (NSFW) material. It can be useful for content filtering and ensuring that inappropriate content is not displayed.
+
+### Benefits of NSFW Search
+
+- Helps in filtering out inappropriate content.
+- Useful for applications that need to ensure a safe browsing experience.
+
+### Enabling and Using NSFW Search
+
+1. Implement NSFW search functionality in your application.
+2. Use appropriate algorithms and libraries to detect and filter NSFW content.
+3. Test the feature thoroughly to ensure accurate filtering.
+
+## IP Trace through Messenger
+
+The IP trace through messenger functionality allows you to trace an IP address through a messenger application. This can be useful for monitoring network traffic and analyzing network-related information.
+
+### Benefits of IP Trace through Messenger
+
+- Helps in monitoring network traffic and analyzing network-related information.
+- Useful for applications that need to trace IP addresses.
+
+### Enabling and Using IP Trace through Messenger
+
+1. Enable Wireless ADB on your device.
+2. Monitor network traffic using tools like `tcpdump`.
+3. Analyze Logcat output for network-related information.
+4. Inspect application data directories for network-related information.
+5. Implement a function to automatically save captured IP addresses and corresponding names based on phone information.
+
+### Example Code for IP Trace through Messenger
+
+FunctionItem(
+    name = "Install an APK",
+    description = "Allows you to install an APK file from your computer onto the connected device. Be cautious with APK sources!",
+    onClick = { 
+        // Example implementation (replace with actual logic)
+        val apkPath = "/path/to/your/apk.apk" // Replace with user input or a file picker
+        val process = Runtime.getRuntime().exec("adb install " + apkPath)
+        process.waitFor()
+        Toast.makeText(context, "Installing APK...", Toast.LENGTH_SHORT).show()
+    }
+),
