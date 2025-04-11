@@ -35,8 +35,7 @@ public class MainActivity extends Activity {
                 new BroadcastReceiver() {
                     @Override
                     public void onReceive(Context context, Intent intent) {
-                        Animation animation = new AlphaAnimation(0.0f, 1.0f);
-                        animation.setDuration(500);
+                        Animation animation = createAlphaAnimation();
                         textView.startAnimation(animation);
                         textView.setText(intent.getStringExtra(MainActivity.EXTENDED_DATA_STATUS));
                     }
@@ -74,5 +73,11 @@ public class MainActivity extends Activity {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    private Animation createAlphaAnimation() {
+        Animation animation = new AlphaAnimation(0.0f, 1.0f);
+        animation.setDuration(500);
+        return animation;
     }
 }

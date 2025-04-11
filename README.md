@@ -59,9 +59,9 @@ Dozens of minimal Android demo apps, each a example of one single Android API co
     1.  [Env](Env/)
     1.  [Ndk](Ndk/)
         1.  [NdkSyslog](NdkSyslog/)
-        1.  [NDKLog](NdkLog/)
-        1.  [NDKLibc](NdkLibc/)
-        1.  [NDKTwoFiles](NdkTwoFiles/)
+        1.  [NDKLog](NDKLog/)
+        1.  [NDKLibc](NDKLibc/)
+        1.  [NDKTwoFiles](NDKTwoFiles/)
 1.  Theory
     1.  [Root](root.md)
     1.  Development
@@ -524,3 +524,80 @@ FunctionItem(
         Toast.makeText(context, "Installing APK...", Toast.LENGTH_SHORT).show()
     }
 ),
+
+## Building and Installing the App Using Command Line Tools
+
+To build and install the app using the command line tools provided by the Android SDK, follow these steps:
+
+1. **Install the Android SDK**: Download and install the Android SDK from the official Android developer website. Set up the environment variables as needed.
+2. **Create a Project Directory**: Create a new directory for your project and copy the existing code into it. For example, create a directory named `MyApp` and copy the contents of the `ActivityLifecycle` directory into it.
+3. **Navigate to the Project Directory**: Open a terminal and navigate to the project directory. For example, if your project is in the `MyApp` directory, run `cd MyApp`.
+4. **Build the Project**: Run the `gradlew` script to build the project. This script is located in the root directory of the project. For example, run `./gradlew build` on Unix-based systems or `gradlew.bat build` on Windows.
+5. **Install the APK**: If the build is successful, you will find the APK file in the `app/build/outputs/apk` directory. You can install this APK file on your Android device using the `adb` tool. For example, run `adb install app/build/outputs/apk/app-debug.apk`.
+
+## Troubleshooting Common Build Issues
+
+If you encounter any issues while building the project, here are some common problems and their solutions:
+
+1. **SDK Not Found**: Ensure that the Android SDK is installed and the environment variables are set correctly.
+2. **Gradle Version Mismatch**: Make sure that the Gradle version specified in the `gradle-wrapper.properties` file matches the version installed on your system.
+3. **Missing Dependencies**: Check the `build.gradle` file for any missing dependencies and add them as needed.
+4. **Build Failures**: Review the build logs for any errors and resolve them accordingly. Common issues include syntax errors, missing resources, and incorrect configurations.
+5. **ADB Connection Issues**: Ensure that your Android device is connected to your computer and that USB debugging is enabled. You may need to restart the `adb` server by running `adb kill-server` followed by `adb start-server`.
+
+By following these steps and troubleshooting tips, you can build and install the app using the command line tools provided by the Android SDK.
+
+## Setting Up the Android SDK Environment Variables
+
+To set up the Android SDK environment variables, follow these steps:
+
+1. **Download and Install the Android SDK**: Download and install the Android SDK from the official Android developer website.
+2. **Set the `ANDROID_HOME` Environment Variable**: Set the `ANDROID_HOME` environment variable to the path where the Android SDK is installed. For example, if the SDK is installed in `/path/to/android-sdk`, set `ANDROID_HOME` to `/path/to/android-sdk`.
+3. **Add `tools` and `platform-tools` to `PATH`**: Add the `tools` and `platform-tools` directories to your `PATH` environment variable. These directories are located inside the Android SDK directory. For example, if the SDK is installed in `/path/to/android-sdk`, add `/path/to/android-sdk/tools` and `/path/to/android-sdk/platform-tools` to your `PATH`.
+
+### Unix-based Systems
+
+On Unix-based systems, you can add the following lines to your shell profile file (e.g., `.bashrc`, `.zshrc`):
+
+```sh
+export ANDROID_HOME=/path/to/android-sdk
+export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+```
+
+### Windows
+
+On Windows, you can set the environment variables through the System Properties dialog:
+
+1. Open the System Properties dialog by right-clicking on "This PC" or "My Computer" and selecting "Properties".
+2. Click on "Advanced system settings" and then click on the "Environment Variables" button.
+3. In the "System variables" section, click "New" to create a new environment variable. Name it `ANDROID_HOME` and set its value to the path where the Android SDK is installed.
+4. Find the `Path` variable in the "System variables" section, select it, and click "Edit". Add the paths to the `tools` and `platform-tools` directories inside the Android SDK directory.
+
+By following these steps, you will have set up the Android SDK environment variables on your system.
+
+## Enabling Wireless Debugging and Using ADB Wirelessly
+
+To enable wireless debugging and use ADB wirelessly for content gathering without Android Studio, follow these steps:
+
+1. **Enable Developer Options**: On your Android device, go to "Settings" > "About phone" and tap on the "Build number" multiple times until you see a message that says "You are now a developer!".
+2. **Enable Wireless Debugging**: Go to "Settings" > "Developer options" and enable "Wireless debugging".
+3. **Connect to the Same Wi-Fi Network**: Ensure that your Android device and your computer are connected to the same Wi-Fi network.
+4. **Connect to the Device Wirelessly**: Open a terminal on your computer and run the following command to connect to your device wirelessly:
+   ```sh
+   adb connect <device_ip_address>
+   ```
+   Replace `<device_ip_address>` with the IP address of your Android device. You can find the IP address in the Wi-Fi settings on your device.
+
+By following these steps, you can enable wireless debugging and use ADB wirelessly for content gathering without Android Studio.
+
+## Creating an APK File Using Command Line Tools
+
+To create an APK file using the command line tools provided by the Android SDK, follow these steps:
+
+1. **Install the Android SDK**: Download and install the Android SDK from the official Android developer website. Set up the environment variables as needed.
+2. **Create a Project Directory**: Create a new directory for your project and copy the existing code into it. For example, create a directory named `MyApp` and copy the contents of the `ActivityLifecycle` directory into it.
+3. **Navigate to the Project Directory**: Open a terminal and navigate to the project directory. For example, if your project is in the `MyApp` directory, run `cd MyApp`.
+4. **Build the Project**: Run the `gradlew` script to build the project. This script is located in the root directory of the project. For example, run `./gradlew build` on Unix-based systems or `gradlew.bat build` on Windows.
+5. **Find the APK File**: If the build is successful, you will find the APK file in the `app/build/outputs/apk` directory. You can install this APK file on your Android device using the `adb` tool. For example, run `adb install app/build/outputs/apk/app-debug.apk`.
+
+By following these steps, you can create an APK file using the command line tools provided by the Android SDK.
