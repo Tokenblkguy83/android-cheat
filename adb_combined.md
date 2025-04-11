@@ -334,11 +334,13 @@ Inspecting application data directories is a feature that allows you to browse t
 
 #### Enabling and Using Inspecting Application Data Directories
 
+**Warning:** Accessing application data directories may expose sensitive information and could have security implications. Ensure you have proper authorization and understand the risks before proceeding.
+
 1. Connect your device to your computer using a USB cable or wirelessly.
 2. Use the `adb shell` command to navigate to the application's data directory. For example, to list the contents of an application's data directory:
 
     ```
-    adb shell ls /data/data/com.example.messenger/
+adb shell ls /data/data/com.example.messenger/
     ```
 
 ### IP Trace through Messenger
