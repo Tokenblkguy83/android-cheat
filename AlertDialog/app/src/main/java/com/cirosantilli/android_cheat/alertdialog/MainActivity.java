@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
@@ -16,7 +18,7 @@ public class MainActivity extends Activity {
         final TextView textView = new TextView(this);
         textView.setText("before");
         this.setContentView(textView);
-        new AlertDialog.Builder(this)
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
             .setTitle("Title of alert")
             .setMessage("Message of the alert. Yes or no?")
             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -30,6 +32,9 @@ public class MainActivity extends Activity {
                 }
             })
             .setIcon(android.R.drawable.ic_dialog_alert)
-            .show();
+            .create();
+
+        alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        alertDialog.show();
     }
 }
