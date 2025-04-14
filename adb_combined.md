@@ -628,3 +628,64 @@ fun AdbToolApp() {
         )
     }
 }
+```
+
+### Automating Wireless ADB Process Using a Script
+
+To automate the Wireless ADB process, you can create a script that performs the necessary steps. Below is an example script that automates the process of enabling Wireless ADB and connecting to the device over Wi-Fi.
+
+#### Example Script (Bash)
+
+```bash
+#!/bin/bash
+
+# Ensure the device is connected via USB initially
+echo "Please connect your device via USB and enable USB debugging."
+
+# Wait for the device to be connected
+adb wait-for-device
+
+# Enable Wireless debugging
+adb shell "settings put global adb_wifi_enabled 1"
+
+# Get the device IP address
+DEVICE_IP=$(adb shell "ip addr show wlan0 | grep 'inet ' | awk '{print \$2}' | cut -d/ -f1")
+
+# Connect to the device over Wi-Fi
+adb tcpip 5555
+adb connect $DEVICE_IP:5555
+
+echo "Connected to the device over Wi-Fi at $DEVICE_IP:5555"
+```
+
+#### Example Script (Python)
+
+```python
+import subprocess
+import time
+
+def run_command(command):
+    result = subprocess.run(command, shell=True, capture_output=True, text=True)
+    return result.stdout.strip()
+
+# Ensure the device is connected via USB initially
+print("Please connect your device via USB and enable USB debugging.")
+
+# Wait for the device to be connected
+run_command("adb wait-for-device")
+
+# Enable Wireless debugging
+run_command("adb shell 'settings put global adb_wifi_enabled 1'")
+
+# Get the device IP address
+device_ip = run_command("adb shell 'ip addr show wlan0 | grep \"inet \" | awk \"{print $2}\" | cut -d/ -f1'")
+
+# Connect to the device over Wi-Fi
+run_command("adb tcpip 5555")
+run_command(f"adb connect {device_ip}:5555")
+
+print(f"Connected to the device over Wi-Fi at {device_ip}:5555")
+```
+
+By using these scripts, you can automate the process of enabling Wireless ADB and connecting to the device over Wi-Fi, making it more convenient for developers.
+
