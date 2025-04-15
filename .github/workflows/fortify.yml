@@ -29,7 +29,7 @@ jobs:
 
       # Step 2: Run Fortify scan with SAST and SCA
       - name: Run Fortify Scan
-        uses: fortify/github-action@ef5539bf4bd9c45c0bd971978f635a69eae55297
+        uses: fortify/github-action@3a480446247aace2c6328ecbabe10d3a14e96976
         with:
           sast-scan: true          # Enable SAST scan
           debricked-sca-scan: true # Enable open-source dependency scan
