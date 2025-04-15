@@ -24,11 +24,11 @@ jobs:
     steps:
       # Checkout the code
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Set up JDK
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -92,6 +92,27 @@ jobs:
           for module in $(./gradlew projects | grep -oP 'project :\K[^ ]+'); do
             ./gradlew :$module:build
           done
+
+      # Integrate NSFW detection library
+      - name: Integrate NSFW detection
+        run: |
+          echo "Running NSFW detection..."
+          # Add your NSFW detection tool command here
+          # Example: ./nsfw-detection-tool --input app/build/outputs/apk/debug/app-debug.apk
+
+      # Handle NSFW detection results
+      - name: Handle NSFW detection results
+        run: |
+          echo "Handling NSFW detection results..."
+          # Add your command to handle NSFW detection results here
+          # Example: if ./nsfw-detection-tool --input app/build/outputs/apk/debug/app-debug.apk | grep -q "NSFW"; then exit 1; fi
+
+      # Implement copy functionality
+      - name: Copy APKs to specific location
+        run: |
+          echo "Copying APKs to specific location..."
+          mkdir -p copied-apks
+          cp app/build/outputs/apk/debug/*.apk copied-apks/
 
       # Upload artifacts (APKs from all modules)
       - name: Upload APK artifacts
